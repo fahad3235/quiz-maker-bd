@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Maker BD</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="header-inner">
+    <div>
+      <h1 id="app-title">Quiz Maker BD</h1>
+      <p id="app-subtitle" class="subtitle">Author your own quizzes and play them \u2014 fully offline.</p>
+    </div>
+    <button id="lang-toggle" class="btn lang-btn" type="button">\u09ac\u09be\u0982\u09b2\u09be</button>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Main tabs">
+  <button class="tab-btn active" data-tab="library" type="button">Library</button>
+  <button class="tab-btn" data-tab="builder" type="button">Builder</button>
+  <button class="tab-btn" data-tab="data" type="button">Data</button>
+</nav>
+
+<main class="container">
+
+  <!-- LIBRARY -->
+  <section id="view-library" class="view">
+    <div class="library-toolbar">
+      <input id="search-input" type="search" placeholder="Search quizzes by title..." aria-label="Search quizzes">
+      <button id="new-quiz-btn" class="btn btn-primary" type="button">+ New Quiz</button>
+    </div>
+    <div id="category-chips" class="chips" aria-label="Filter by category"></div>
+    <p id="empty-state" class="empty-state hidden"></p>
+    <div id="quiz-list" class="quiz-list"></div>
+  </section>
+
+  <!-- BUILDER -->
+  <section id="view-builder" class="view hidden">
+    <h2 id="builder-heading">Create a Quiz</h2>
+    <div id="builder-errors" aria-live="polite"></div>
+    <div class="form-grid">
+      <label id="lbl-title" for="quiz-title">Quiz title</label>
+      <input id="quiz-title" type="text" placeholder="e.g. My Bangladesh GK Quiz" maxlength="120">
+      <label id="lbl-desc" for="quiz-desc">Description (optional)</label>
+      <input id="quiz-desc" type="text" placeholder="A short description of this quiz" maxlength="200">
+      <label id="lbl-category" for="quiz-category">Category</label>
+      <select id="quiz-category"></select>
+      <label id="lbl-other-category" for="quiz-category-custom">Custom category</label>
+      <input id="quiz-category-custom" class="hidden" type="text" placeholder="Type a category name" maxlength="40">
+      <label id="lbl-time" for="quiz-time">Time limit per question (seconds)</label>
+      <input id="quiz-time" type="number" min="0" max="300" step="1" value="0" inputmode="numeric">
+      <p id="hint-time" class="hint">0 = no limit. Otherwise 10\u2013300 seconds.</p>
+    </div>
+    <h3 id="lbl-questions">Questions</h3>
+    <div id="questions-editor"></div>
+    <div class="builder-actions">
+      <button id="add-question-btn" class="btn" type="button">+ Add Question</button>
+      <button id="save-quiz-btn" class="btn btn-primary" type="button">Save Quiz</button>
+      <button id="cancel-quiz-btn" class="btn" type="button">Cancel</button>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="view-play" class="view hidden">
+    <div id="play-quiz">
+      <div class="play-top">
+        <span id="play-progress"></span>
+        <span id="play-timer" class="timer hidden"></span>
+      </div>
+      <div class="progress-track"><div id="play-progress-bar" class="progress-fill"></div></div>
+      <h2 id="play-question-text"></h2>
+      <div id="play-options" class="options"></div>
+      <p id="play-explanation" class="explanation hidden"></p>
+      <div class="play-actions">
+        <button id="play-next-btn" class="btn btn-primary hidden" type="button">Next</button>
+        <button id="quit-btn" class="btn" type="button">Quit</button>
+      </div>
+    </div>
+    <div id="play-results" class="hidden">
+      <h2 id="results-title">Results</h2>
+      <p id="results-score" class="results-score"></p>
+      <p id="results-grade" class="results-grade"></p>
+      <h3 id="review-title">Review your answers</h3>
+      <div id="results-review"></div>
+      <div class="play-actions">
+        <button id="retake-btn" class="btn btn-primary" type="button">Retake</button>
+        <button id="back-library-btn" class="btn" type="button">Back to Library</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA -->
+  <section id="view-data" class="view hidden">
+    <h2 id="data-export-title">Export</h2>
+    <p id="data-export-desc">Download all your quizzes as one JSON file.</p>
+    <button id="export-btn" class="btn btn-primary" type="button">Download JSON</button>
+    <hr>
+    <h2 id="data-import-title">Import</h2>
+    <p id="data-import-desc">Import a Quiz Maker BD JSON file. Invalid files are rejected and your data is left untouched.</p>
+    <label for="import-file" class="btn" id="import-btn">Choose JSON File</label>
+    <input id="import-file" type="file" accept=".json,application/json" class="visually-hidden">
+    <p id="import-status" class="status" aria-live="polite"></p>
+    <hr>
+    <h2 id="data-erase-title">Erase everything</h2>
+    <p id="data-erase-desc">Delete all quizzes and best scores. This cannot be undone. Type DELETE to confirm.</p>
+    <div class="erase-row">
+      <input id="erase-input" type="text" placeholder="Type DELETE" autocomplete="off">
+      <button id="erase-btn" class="btn btn-danger" type="button">Erase All Data</button>
+    </div>
+    <p id="erase-status" class="status" aria-live="polite"></p>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p id="footer-note">Quiz Maker BD is a personal offline tool. It is not an official exam source.</p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/logic.js"></script>
+<script src="js/starter.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
